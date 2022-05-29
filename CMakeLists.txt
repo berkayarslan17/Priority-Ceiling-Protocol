@@ -6,7 +6,7 @@ INCLUDE_DIRECTORIES(src)
 add_executable(${PROJECT_NAME} 
                 src/main.cpp
                 src/mutex.cpp
-                src/thread.cpp)
+                src/test.cpp)
 
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 20)
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD_REQUIRED ON)

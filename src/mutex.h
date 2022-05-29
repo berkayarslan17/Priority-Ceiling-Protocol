@@ -12,7 +12,7 @@
 #define THREAD_NOT_FOUND 0
 
 /**
- * @requirements
+ * @todo
  *
  * 1- (DONE) gtu::mutex shall implement std::mutex interface that is required by std::lock_guard and std::unique_lock.
  *
