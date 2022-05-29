@@ -57,7 +57,6 @@ bool gtu::mutex::check_for_registration_violation()
             // If the system finds the thread in thread info, return true.
             if (it->id == std::this_thread::get_id())
             {
-                // printf("thread registered\n");
                 status = THREAD_FOUND;
                 return status;
             }
@@ -84,11 +83,8 @@ void gtu::mutex::register_thread(std::thread &thread)
 {
     thread_info_t this_thread_info;
 
-    // (void)get_thread_priority(thread);
     this_thread_info.priority = get_thread_priority(thread);
-    std::cout << "priority is " << this_thread_info.priority << std::endl;
     this_thread_info.id = thread.get_id();
-    std::cout << "thread id is " << this_thread_info.id << std::endl;
 
     threads_info.push_back(this_thread_info);
 }
