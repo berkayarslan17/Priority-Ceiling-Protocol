@@ -1,15 +1,11 @@
-#ifndef _MUTEX_H
-#define _MUTEX_H
+#ifndef _MUTEX_H_
+#define _MUTEX_H_
 
 #include <iostream>
 #include <mutex>
 #include <climits>
 #include <vector>
-#include <pthread.h>
-#include <thread>
-
-#define THREAD_FOUND 1
-#define THREAD_NOT_FOUND 0
+#include "thread_info.h"
 
 /**
  * @requirements
@@ -28,20 +24,6 @@
  */
 namespace gtu
 {
-    /**
-     * @brief A Thread Info Struct
-     *
-     * This structure keeps information related to each thread that registers to gtu::mutex class.
-     * Information of threads are important for a couple of things. One of the first thing is checking
-     * whether a violation exists or not. Second thing is we have to know the threads priority in order to
-     * inherit their priorities properly.
-     *
-     */
-    typedef struct thread_info
-    {
-        int priority;
-        std::thread::id id;
-    } thread_info_t;
 
     /**
      * @brief A Custom Mutex Class
@@ -74,6 +56,12 @@ namespace gtu
          *
          */
         std::mutex internal_mutex;
+
+        /**
+         * @brief
+         *
+         */
+        int mutex_id;
 
         /**
          * @brief Ceiling Value of Mutex
@@ -134,14 +122,38 @@ namespace gtu
          */
         void update_ceiling_value();
 
+        /**
+         * @brief
+         *
+         * @param thread_id
+         */
+        int find_thread_by_id(std::thread::id thread_id);
+
+        /**
+         * @brief
+         *
+         * @param thread_id
+         * @param evt
+         */
+        void thread_dispatch(std::thread::id thread_id, event_t *evt);
+
+        /**
+         * @brief Get the lock thread id object
+         *
+         * @param mutex
+         * @return std::thread::id
+         */
+        std::thread::id get_lock_thread_id(int mutex);
+
     public:
         /**
          * @brief Qualified Constructor for Mutex
          *
          * @param value Priority Ceiling Value of Mutex
          */
-        explicit mutex(unsigned long value) : ceiling_value(value),
-                                              prev_ceiling_value(0)
+        explicit mutex(int id, unsigned long value) : mutex_id(id),
+                                                      ceiling_value(value),
+                                                      prev_ceiling_value(0)
         {
         }
 
